@@ -3,6 +3,9 @@ SpeechRecognitionPlugin
 
 W3C Web Speech API - Speech Recognition plugin for PhoneGap
 
+Update 2013/07/13
+=================
+
 Update 2013/09/05
 =================
 
