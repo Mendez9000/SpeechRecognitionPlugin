@@ -83,15 +83,16 @@ public class SpeechRecognition extends CordovaPlugin {
             if (DoInit()) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
                 
-                Handler loopHandler = new Handler(Looper.getMainLooper());
-                loopHandler.post(new Runnable() {
-
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
-                        recognizer.setRecognitionListener(new SpeechRecognitionListner());
+                    	if (recognizer!=null){
+                    		recognizer.cancel();
+                    		recognizer.destroy();
+                    	}
+                    	recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
+                    	recognizer.setRecognitionListener(new SpeechRecognitionListner());
                     }
-                    
                 });
             } else {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, NOT_PRESENT_MESSAGE));
@@ -129,14 +130,11 @@ public class SpeechRecognition extends CordovaPlugin {
 
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
 
-        Handler loopHandler = new Handler(Looper.getMainLooper());
-        loopHandler.post(new Runnable() {
-
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                recognizer.startListening(intent);
+            	 recognizer.startListening(intent);
             }
-
         });
 
         PluginResult res = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -146,14 +144,11 @@ public class SpeechRecognition extends CordovaPlugin {
     
     private void stop(boolean abort) {
         this.aborted = abort;
-        Handler loopHandler = new Handler(Looper.getMainLooper());
-        loopHandler.post(new Runnable() {
-
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                recognizer.stopListening();
+            	 recognizer.stopListening();
             }
-            
         });
     }
 
