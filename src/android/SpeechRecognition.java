@@ -133,10 +133,6 @@ public class SpeechRecognition extends CordovaPlugin {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-            	if (recognizer!=null){
-            		recognizer.cancel();
-            		recognizer.destroy();
-            	}
             	recognizer.startListening(intent);
             }
         });
